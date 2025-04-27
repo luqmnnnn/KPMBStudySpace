@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body {
+            margin: 0px;
+            padding: 0px;
+            text-align: center;
+            background-color: beige;
+        }
+
+        /* Top navigation bar */
+        .topnav {
+            text-align: center;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background-color: #750000;
+            overflow: hidden;
+            padding: 10px;
+        }
+
+        .topnav a.left {
+            float: left;
+            color: whitesmoke;
+            text-align: center;
+            padding: 12px 14px;
+            text-decoration: none;
+            font-size: 26px;
+            margin-right: 10px;
+        }
+
+        .topnav a.right {
+            float: right;
+            color: whitesmoke;
+            text-align: center;
+            padding: 10px 12px;
+            text-decoration: none;
+            font-size: 26px;
+            margin-right: 10px;
+        }
+
+        .topnav a.left:hover {
+            background-color: whitesmoke;
+            color: #750000;
+        }
+
+        h1 {
+            color: #750000;
+            text-shadow: 2px 2px 4px white;
+            margin-top: 80px;
+            font-size: 40px;
+            padding: 5px;
+        }
+
+        /* Big cube image */
+        img.logo {
+            width: 25%;
+            height: 25%;
+            border-radius: 10px;
+        }
+
+        /* Direction menu */
+        ul {
+            list-style-type: none;
+            margin-top: 40px;
+            padding: 0;
+        }
+
+        li {
+            font-size: 25px;
+            margin: 20px auto;
+            padding: 20px;
+            box-sizing: border-box;
+            width: 15%;
+            background-color: #750000;
+            border-radius: 10px;
+        }
+        footer {
+            background-color: #750000;
+            color: whitesmoke;
+            padding: 10px;
+            position: fixed;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            text-align: center;
+            font-size: 16px;
+        }
+
+        a.direction {
+            color: whitesmoke;
+            text-decoration: none;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>Welcome to KPMB Study Space!</h1>
+
+    <div class="topnav">
+        {% for value in data %}
+        <a class="right">{{value.userName}}</a>
+        {% endfor %}
+        <form method="post" action="{% url 'logout' %}">
+            <a class="left" href="{% url 'logout' %}">Logout</a>
+        </form>
+    </div>
+
+    {% load static %}
+    <img class="logo" src='{% static 'Tuition/images/KPMBSTUDYSPACE.png' %}'>
+
+    <ul>
+        <li><a class='direction' href="{% url 'tuitionpackage' %}">Tuition Package</a></li>
+        <li><a class='direction' href="{% url 'registration' %}">Registration</a></li>
+        <li><a class='direction' href="{% url 'suggestion' %}">Suggestion</a></li>
+        <li><a class='direction' href="{% url 'my_account' %}">My Account</a></li>
+    </ul>
+    <br>
+    <br>
+    <footer>
+        &copy; 2024 KPMB Study Space. All Rights Reserved.
+    </footer>
+</body>
+</html>

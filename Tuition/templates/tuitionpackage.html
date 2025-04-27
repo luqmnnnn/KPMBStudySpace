@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tuition Packages</title>
+    <style>
+        body {
+            margin: 0px;
+            padding: 0px;
+            text-align: center;
+            background-color: beige;
+        }
+
+        /* Top navigation bar */
+        .topnav {
+            text-align: center;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background-color: #750000;
+            overflow: hidden;
+            padding: 10px;
+        }
+
+        .topnav a.left {
+            float: left;
+            color: whitesmoke;
+            text-align: center;
+            padding: 12px 14px;
+            text-decoration: none;
+            font-size: 26px;
+            margin-right: 10px;
+        }
+
+        .topnav a.right {
+            float: right;
+            color: whitesmoke;
+            text-align: center;
+            padding: 10px 12px;
+            text-decoration: none;
+            font-size: 26px;
+            margin-right: 10px;
+        }
+
+        .topnav a.left:hover,
+        .topnav a.right:hover {
+            background-color: whitesmoke;
+            color: #750000;
+        }
+
+        h1 {
+            color: #750000;
+            text-shadow: 2px 2px 4px white;
+            margin-top: 80px;
+            font-size: 40px;
+            padding: 5px;
+        }
+
+        /* Form styling */
+        form.tuitionpackage {
+            margin: 40px auto;
+            padding: 10px;
+            font-size: 18px;
+            color: #750000;
+        }
+
+        select {
+            font-size: 16px;
+            padding: 5px;
+            border-radius: 5px;
+        }
+
+        input[type="submit"] {
+            font-size: 16px;
+            padding: 5px 10px;
+            background-color: #750000;
+            color: whitesmoke;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        input[type="submit"]:hover {
+            background-color: whitesmoke;
+            color: #750000;
+        }
+
+        /* Tuition package list */
+        ul {
+            list-style-type: none;
+            margin-top: 20px;
+            padding: 0;
+        }
+
+        li {
+            font-size: 20px;
+            margin: 20px auto;
+            padding: 20px;
+            box-sizing: border-box;
+            width: 50%;
+            background-color: #750000;
+            color: whitesmoke;
+            border-radius: 10px;
+        }
+
+        li form {
+            margin-top: 10px;
+        }
+
+        button {
+            background-color: whitesmoke;
+            color: #750000;
+            padding: 5px 10px;
+            border-radius: 5px;
+            border: none;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #750000;
+            color: whitesmoke;
+        }
+
+        /* Cart section */
+        h2 {
+            color: #750000;
+            margin-top: 40px;
+            font-size: 30px;
+        }
+
+        .cart table {
+            margin: 0 auto;
+            width: 80%;
+            text-align: left;
+            border-collapse: collapse;
+            margin-bottom: 50px;
+        }
+
+        .cart th,
+        .cart td {
+            border: 1px solid #750000;
+            padding: 10px;
+        }
+
+        .cart th {
+            background-color: #750000;
+            color: whitesmoke;
+        }
+
+        .cart td {
+            background-color: whitesmoke;
+            color: #750000;
+        }
+
+        footer {
+            background-color: #750000;
+            color: whitesmoke;
+            padding: 10px;
+            position: fixed;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            text-align: center;
+            font-size: 16px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="topnav">
+        <form method="post" action="{% url 'logout' %}">
+            <a class="left" href="{% url 'logout' %}">Logout</a>
+        </form>
+        <a class="left" href="{% url 'homepage' %}">Homepage</a>
+        {% for value in data %}
+        <a class="right">{{ value.userName }}</a>
+        {% endfor %}
+    </div>
+
+    <h1>Tuition Packages</h1>
+
+    <form class="tuitionpackage" action="{% url 'tuitionpackage' %}" method="GET">
+        {% csrf_token %}
+        <p>Filter by:
+            <select size="1" name='i_category'>
+                <option>Choose preferred tuition package categories</option>
+                {% for value in data2 %}
+                <option value="{{ value.packageCategory }}">{{ value.packageCategory }}</option>
+                {% endfor %}
+            </select>
+        </p>
+        <input type="submit" value="Search">
+    </form>
+
+    <ul>
+        {% for package in data3 %}
+        <li>
+            {% if package.packageCategory == "Business" %}
+            <img src="{% static 'Tuition/images/business.jpg' %}" alt="Business Image" style="width: 100px; height: auto; float: left; margin-right: 10px;">
+            {% elif package.packageCategory == "Science" %}
+            <img src="{% static 'Tuition/images/science.jpg' %}" alt="Science Image" style="width: 100px; height: auto; float: left; margin-right: 10px;">
+            {% elif package.packageCategory == "Engineering" %}
+            <img src="{% static 'Tuition/images/engineering.jpg' %}" alt="Engineering Image" style="width: 100px; height: auto; float: left; margin-right: 10px;">
+            {% elif package.packageCategory == "IT" %}
+            <img src="{% static 'Tuition/images/it.jpg' %}" alt="IT Image" style="width: 100px; height: auto; float: left; margin-right: 10px;">
+            {% endif %}
+            {{ package.packageDescription }} - RM{{ package.packagePrice }}
+            <form method="post" action="{% url 'tuitionpackage' %}">
+                {% csrf_token %}
+                <input type="hidden" name="tuitionPackageID" value="{{ package.tuitionPackageID }}">
+                <button type="submit">Add to Cart</button>
+            </form>
+            <div style="clear: both;"></div>
+        </li>
+        {% endfor %}
+    </ul>
+
+    <h2>Cart</h2>
+    <div class="cart">
+        <table>
+            <thead>
+                <tr>
+                    <th>TuitionPackageID</th>
+                    <th>UserID</th>
+                    <th>PackageCategory</th>
+                    <th>PackageDescription</th>
+                    <th>PackagePrice</th>
+                    <th>Subjects</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in cart_details %}
+                <tr>
+                    <td>{{ item.tuitionPackageID }}</td>
+                    <td>{{ item.userID }}</td>
+                    <td>{{ item.packageCategory }}</td>
+                    <td>{{ item.packageDescription }}</td>
+                    <td>RM{{ item.packagePrice }}</td>
+                    <td>{{ item.subjects }}</td>
+                </tr>
+                {% endfor %}
+                <tr>
+                    <td colspan="4" style="text-align:right"><strong>Total Price:</strong></td>
+                    <td>RM{{ total_price }}</td>
+                    <td></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <footer>
+        &copy; 2024 KPMB Study Space. All Rights Reserved.
+    </footer>
+
+    <br><br>
+</body>
+
+</html>

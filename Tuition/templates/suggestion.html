@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Suggestion</title>
+    <style>
+        body {
+            margin: 0px;
+            padding: 0px;
+            background-color: beige;
+        }
+
+        .topnav {
+            text-align: center;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background-color: #750000;
+            overflow: hidden;
+            padding: 10px;
+        }
+
+        h1 {
+            color: #750000;
+            text-shadow: 2px 2px 4px white;
+            margin-top: 20px;
+            font-size: 40px;
+            padding: 5px;
+            text-align: center;
+        }
+
+        .topnav a.left {
+            float: left;
+            color: whitesmoke;
+            text-align: center;
+            padding: 12px 14px;
+            text-decoration: none;
+            font-size: 26px;
+            margin-right: 10px;
+        }
+
+        .topnav a.right {
+            float: right;
+            color: whitesmoke;
+            text-align: center;
+            padding: 10px 12px;
+            text-decoration: none;
+            font-size: 26px;
+            margin-right: 10px;
+        }
+
+        a.direction {
+            font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+            font-size: 20px;
+            color: #750000;
+            text-decoration: none;
+            padding: 20px;
+            background-color: whitesmoke;
+            border: 1px solid;
+            border-radius: 10px;
+        }
+
+        a.direction:hover {
+            color: whitesmoke;
+            background-color: #750000;
+        }
+
+        table {
+            border: 1px solid;
+            padding: 10px;
+            margin: 0 auto;
+            color: #750000;
+            background-color: white;
+            margin-bottom: 20px;
+            max-width: 50%;
+        }
+
+        th {
+            padding: 1px;
+            font-size: 20px;
+            font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+        }
+
+        tr,
+        td {
+            padding: 5px;
+            padding-left: 20px;
+            padding-right: 20px;
+            font-size: 20px;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        p.down {
+            padding: 100px;
+            text-align: center;
+        }
+
+        footer {
+            background-color: #750000;
+            color: whitesmoke;
+            padding: 10px;
+            position: fixed;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            text-align: center;
+            font-size: 16px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="topnav">
+        {% for value in user %}
+        <a class="right">{{value.userName}}</a>
+        {% endfor %}
+        <form action="{% url 'logout' %}" method="POST">
+            <a class="left" href="{% url 'logout' %}">Logout</a>
+        </form>
+        <a class="left" href="{% url 'homepage' %}">Homepage</a>
+    </div>
+
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+
+    <!-- Adding an image here for the suggestion section -->
+    <div style="text-align: center;">
+        <img src="{% static 'Tuition/images/suggestion.jpg' %}" alt="Suggestion Box Image" style="width: 300; height: auto; margin-bottom: 20px;">
+    </div>
+
+    <h1>Suggestion Box</h1>
+
+    {% for value in allsuggestion %}
+    <table>
+        <tr>
+            <th>
+                <p>{{value.userID}}</p>
+            </th>
+        </tr>
+        <tr>
+            <td>
+                <p>Title:</p>
+                <p>{{value.title}}</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <p>Suggestion:</p>
+                <p>{{value.forum}}</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <form action="{% url 'delete_suggestion' value.id %}" method="POST">
+                    {% csrf_token %}
+                    <button type="submit" class="direction">Delete Suggestion</button>
+                </form>
+            </td>
+        </tr>
+    </table>
+    {% endfor %}
+    <br>
+    <br>
+    <br>
+    <br>
+    <p class="down"><a class='direction' href="{% url 'new_suggestion' %}">Add New Suggestion!</a></p>
+    <footer>
+        &copy; 2024 KPMB Study Space. All Rights Reserved.
+    </footer>
+</body>
+
+</html>

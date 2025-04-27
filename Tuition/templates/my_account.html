@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Account</title>
+    <style>
+        body {
+            text-align: center;
+            background-color: beige;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Top navigation bar */
+        .topnav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background-color: #750000;
+            overflow: hidden;
+            padding: 10px;
+        }
+
+        .topnav a.left {
+            float: left;
+            color: whitesmoke;
+            text-align: center;
+            padding: 12px 14px;
+            text-decoration: none;
+            font-size: 26px;
+            margin-right: 10px;
+        }
+
+        .topnav a.right {
+            float: right;
+            color: whitesmoke;
+            text-align: center;
+            padding: 10px 12px;
+            text-decoration: none;
+            font-size: 26px;
+            margin-right: 10px;
+        }
+
+        .topnav a.left:hover {
+            background-color: whitesmoke;
+            color: #750000;
+        }
+
+        .form-container {
+            margin: 0 auto;
+            max-width: 600px;
+            background-color: whitesmoke;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+            margin-bottom: 60px; /* Increase space below form */
+        }
+
+        h1 {
+            color: #750000;
+            text-shadow: 2px 2px 4px white;
+            margin-top: 20px;
+            font-size: 40px;
+            padding: 5px;
+        }
+
+        .logo-container {
+            margin-top: 100px; /* Increase space above logo */
+            margin-bottom: 20px;
+        }
+
+        input[type="submit"],
+        input[type="button"] {
+            background-color: #750000;
+            color: whitesmoke;
+            border: none;
+            padding: 15px 60px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 20px;
+        }
+
+        input[type="submit"]:hover,
+        input[type="button"]:hover {
+            border: 1px solid;
+            background-color: white;
+            color: #750000;
+        }
+
+        table {
+            width: 100%;
+            padding: 5px;
+            margin-top: 10px;
+            margin-bottom: 10px;
+        }
+
+        td {
+            padding: 10px;
+        }
+
+        input[type="text"],
+        input[type="password"] {
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid grey;
+            width: 100%;
+            box-sizing: border-box;
+            display: block;
+        }
+
+        label {
+            font-size: 20px;
+        }
+
+        footer {
+            background-color: #750000;
+            color: whitesmoke;
+            padding: 10px;
+            position: fixed;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            text-align: center;
+            font-size: 16px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="topnav">
+        {% for value in data %}
+        <a class="right">{{value.userName}}</a>
+        {% endfor %}
+        <form action="{% url 'logout' %}" method="POST">
+            <a class="left" href="{% url 'logout' %}">Logout</a>
+        </form>
+        <a class="left" href="{% url 'homepage' %}">Homepage</a>
+    </div>
+
+    <div class="logo-container">
+        <img src="{% static 'Tuition/images/account.png' %}" alt="Account Image" style="width: 150px; height: auto;">
+    </div>
+
+    <h1>My Account</h1>
+
+    <form class="form-container" action="update_my_account" method="POST">
+        {% csrf_token %}
+        <table>
+            {% for value in data %}
+            <tr>
+                <td><label for="u_id">User ID</label></td>
+                <td><input type="text" value="{{value.userID}}" name="u_id" id="u_id" disabled></td>
+            </tr>
+            <tr>
+                <td><label for="u_name">Username</label></td>
+                <td><input type="text" value="{{value.userName}}" name="u_name" id="u_name"></td>
+            </tr>
+            <tr>
+                <td><label for="u_email">Email</label></td>
+                <td><input type="text" value="{{value.userEmail}}" name="u_email" id="u_email"></td>
+            </tr>
+            <tr>
+                <td><label for="u_mobile">Phone Number</label></td>
+                <td><input type="text" value="{{value.userMobile}}" name="u_mobile" id="u_mobile"></td>
+            </tr>
+            {% endfor %}
+        </table>
+        <div style="text-align: center; margin-top: 20px;">
+            <input type="submit" value="Update">
+        </div>
+    </form>    
+    <footer>
+        &copy; 2024 KPMB Study Space. All Rights Reserved.
+    </footer>
+</body>
+</html>

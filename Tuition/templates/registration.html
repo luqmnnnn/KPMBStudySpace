@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registration</title>
+    <style>
+        body {
+            margin: 0px;
+            padding: 0px;
+            text-align: center;
+            background-color: beige;
+        }
+
+        .topnav {
+            text-align: center;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background-color: #750000;
+            overflow: hidden;
+            padding: 10px;
+        }
+
+        .topnav a.left {
+            float: left;
+            color: whitesmoke;
+            text-align: center;
+            padding: 12px 14px;
+            text-decoration: none;
+            font-size: 26px;
+            margin-right: 10px;
+        }
+
+        .topnav a.right {
+            float: right;
+            color: whitesmoke;
+            text-align: center;
+            padding: 10px 12px;
+            text-decoration: none;
+            font-size: 26px;
+            margin-right: 10px;
+        }
+
+        .topnav a.left:hover {
+            background-color: whitesmoke;
+            color: #750000;
+        }
+
+        h1 {
+            color: #750000;
+            text-shadow: 2px 2px 4px white;
+            margin-top: 80px;
+            font-size: 40px;
+            padding: 5px;
+        }
+
+        .instruction {
+            margin: 20px auto;
+            font-size: 18px;
+            color: #750000;
+            text-align: left;
+            line-height: 1.5;
+            max-width: 800px;
+        }
+
+        .box {
+            margin: 40px auto;
+            max-width: 1000px;
+            background-color: whitesmoke;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+
+        th,
+        td {
+            padding: 12px;
+            border: 1px solid #750000;
+            text-align: left;
+            background-color: white;
+        }
+
+        th {
+            background-color: #750000;
+            color: white;
+        }
+
+        tr:hover {
+            background-color: #f2f2f2;
+        }
+
+        .clear {
+            background-color: #750000;
+            color: white;
+            border: none;
+            padding: 10px 30px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .clear:hover {
+            background-color: #a10000;
+        }
+
+        input[type="submit"] {
+            background-color: #750000;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            font-size: 16px;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #a10000;
+        }
+
+        footer {
+            background-color: #750000;
+            color: whitesmoke;
+            padding: 10px;
+            position: fixed;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            text-align: center;
+            font-size: 16px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="topnav">
+        {% for value in data %}
+        <a class="right">{{value.userName}}</a>
+        {% endfor %}
+        <form action="{% url 'logout' %}" method="POST" style="display:inline;">
+            <a class="left" href="{% url 'logout' %}">Logout</a>
+        </form>
+        <a class="left" href="{% url 'homepage' %}">Homepage</a>
+    </div>
+
+    <h1>Registration</h1>
+
+    <p class="instruction">
+        To update your registration, select the "Update" link next to the registration entry you wish to change. 
+        You will be able to update the status and session. 
+        If you need to filter by Registration ID, use the dropdown menu below.
+    </p>
+
+    <form style="margin-bottom: 40px;" action="registration" method="GET">
+        <p>Filter by Registration ID:
+            <select size="1" name='i_id'>
+                <option value="" disabled selected>Select Registration ID</option>
+                {% for value in data2 %}
+                <option value="{{value.registrationID}}">{{value.registrationID}}</option>
+                {% endfor %}
+            </select>
+        </p>
+        <input type="submit" value="Search">
+    </form>
+
+    <div class="box">
+        <table>
+            <tr>
+                <th>User ID</th>
+                <th>Registration ID</th>
+                <th>Registration Place</th>
+                <th>Registration Price</th>
+                <th>Time</th>
+                <th>Status</th>
+                <th>Session</th>
+                <th>Actions</th>
+            </tr>
+            {% for value in data3 %}
+            <tr>
+                <td>{{ user_id }}</td>
+                <td>{{ value.registrationID }}</td>
+                <td>{{ value.registrationPlace }}</td>
+                <td>{{ value.registrationPrice }}</td>
+                <td>{{ value.time }}</td>
+                <td>{{ value.status }}</td>
+                <td>{{ value.session }}</td>
+                <td><a class="clear" href="{% url 'update_registration' value.registrationID %}">Update</a></td>
+            </tr>
+            {% endfor %}
+        </table>
+        <a href="{% url 'clear_registration'%}"><button class="clear">Clear Registration</button></a>
+    </div>
+
+    <footer>
+        &copy; 2024 KPMB StudySpace. All Rights Reserved.
+    </footer>
+    <br>
+    {{message}}
+
+</body>
+
+</html>

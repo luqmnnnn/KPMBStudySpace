@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body {
+            margin: 0px;
+            padding: 0px;
+            text-align: center;
+            background-color: beige;
+        }
+
+        /* Top navigation bar */
+        .topnav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background-color: #750000;
+            overflow: hidden;
+            padding: 10px;
+            text-align: center;
+        }
+
+        .topnav img {
+            height: 50px;
+            vertical-align: middle;
+        }
+
+        .topnav a.left {
+            color: whitesmoke;
+            text-decoration: none;
+            font-size: 26px;
+            vertical-align: middle;
+            margin-left: 10px;
+        }
+
+        .form {
+            margin: 0 auto;
+            max-width: 400px;
+            background-color: whitesmoke;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        table {
+            width: 100%;
+            padding: 5px;
+            margin-top: 10px;
+            margin-bottom: 10px;
+        }
+
+        td {
+            padding: 10px;
+        }
+
+        input[type="text"],
+        input[type="password"] {
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid grey;
+            width: 100%;
+            box-sizing: border-box;
+            display: block;
+        }
+
+        input[type="submit"] {
+            background-color: #750000;
+            color: whitesmoke;
+            border: none;
+            padding: 15px 60px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 20px;
+        }
+
+        input[type="submit"]:hover {
+            border: 1px solid;
+            background-color: white;
+            color: #750000;
+        }
+
+        label {
+            font-size: 20px;
+        }
+
+        .forgot {
+            background-color: white;
+            color: #750000;
+            border: 1px solid;
+            padding: 15px 60px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-bottom: 40px;
+        }
+
+        .forgot:hover {
+            border: 1px solid;
+            background-color: #750000;
+            color: whitesmoke;
+        }
+    </style>
+</head>
+<script>
+    function togglePasswordVisibility() {
+        const password = document.getElementById("u_password");
+        const showPasswordCheckbox = document.getElementById("show-password-checkbox");
+
+        if (showPasswordCheckbox.checked) {
+            password.type = "text";
+        } else {
+            password.type = "password";
+        }
+    }
+</script>
+
+<body>
+
+    <div class="topnav">
+        <img src="{% static 'Tuition/images/LogoKPM.png' %}" alt="Logo KPM">
+        <a class="left">Login</a>
+    </div>
+
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+
+    <div class='form'>
+        <form action="login" method="GET">
+            {% csrf_token %}
+            <table>
+                <tr>
+                    <td><label for="userid">Enter user ID</label></td>
+                    <td><input type="text" name="userid" id="userid"></td>
+                </tr>
+                <tr>
+                    <td><label for="u_password">Enter Password</label></td>
+                    <td><input type="password" name="u_password" id="u_password"></td>
+                </tr>
+            </table>
+            <a>Show password</a>
+            <input type="checkbox" id="show-password-checkbox" onchange="togglePasswordVisibility()">
+            <table>
+                <tr>
+                    <td><input type="submit" value="Login"></td>
+                </tr>
+            </table>
+        </form>
+        <a href="{% url 'forgot_password' %}"><button class="forgot">Forgot password?</button></a>
+    </div>
+
+    <br>
+    <br>
+
+    {% if message %}
+    <div>{{message}}</div>
+    {% endif %}
+</body>
+</html>
